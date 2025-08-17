@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import MyContext  from './myContext'
-import { addDoc, collection, onSnapshot, orderBy, query, QuerySnapshot, Timestamp } from 'firebase/firestore'
+import { addDoc, collection, deleteDoc, doc, onSnapshot, orderBy, query, setDoc, Timestamp } from 'firebase/firestore'
 import { toast } from 'react-toastify'
 import { fireDB } from '../../firebase/FirebaseConfig'
 
@@ -65,7 +65,7 @@ const myState = (props) => {
                 orderBy("time")
             )
             const data = onSnapshot(q,(QuerySnapshot)=>{
-                let ProductArray= []
+                let ProductArray= [];
                 QuerySnapshot.forEach((doc)=>{
                     ProductArray.push({...doc.data(),id:doc.id})
                 })
@@ -82,8 +82,42 @@ const myState = (props) => {
         getProductData()
     },[])
 
+    const editHandle = (item)=>{
+        setProducts(item)
+    }
+
+    const updateProduct = async () => {
+        setLoading(true)
+        try {
+            await setDoc(doc(fireDB,'products', products.id),products)
+            toast.success("Product updated successfully")
+            setTimeout(()=>{
+                window.location.href="/dashboard"
+            },800)
+            getProductData()
+            setLoading(false)
+            
+        } catch (error) {
+            toast.error("Something went wrong")
+            setLoading(false)
+        }
+    }
+
+    const deleteProduct = async(item)=>{
+        setLoading(true)
+        try {
+            await deleteDoc(doc(fireDB,"products",item.id))
+            toast.success("Product deleted successfully")
+            getProductData()
+            setLoading(false)
+        } catch (error) {
+            toast.error("Something went wrong")
+            setLoading(false)
+        }
+    }
+
   return (
-    <MyContext.Provider value={{mode,toggleMode, loading, setLoading, products, setProducts, addProduct, product}} >
+    <MyContext.Provider value={{mode,toggleMode, loading, setLoading, products, setProducts, addProduct, product, editHandle, updateProduct, deleteProduct}} >
         {props.children}
     </MyContext.Provider>
   )

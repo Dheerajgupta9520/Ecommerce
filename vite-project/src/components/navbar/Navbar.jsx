@@ -6,6 +6,7 @@ import { FiSun } from "react-icons/fi";
 import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { RxCross1 } from "react-icons/rx";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -19,6 +20,8 @@ const Navbar = () => {
     localStorage.clear("user");
     window.location.href = "/login";
   };
+
+  const cartItems = useSelector((state) => state.cart);
 
   return (
     <div className="bg-white sticky top-0 z-50">
@@ -189,13 +192,13 @@ const Navbar = () => {
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
-                  stroke-width="1.5"
+                  strokeWidth="1.5"
                   stroke="currentColor"
-                  class="w-6 h-6"
+                  className="w-6 h-6"
                 >
                   <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                     d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
                   />
                 </svg>
@@ -328,7 +331,7 @@ const Navbar = () => {
                       className="ml-2 text-sm font-medium text-gray-700 group-"
                       style={{ color: mode === "dark" ? "white" : "" }}
                     >
-                      0
+                      {cartItems.length}
                     </span>
                     <span className="sr-only">items in cart, view bag</span>
                   </Link>
