@@ -1,8 +1,12 @@
 import React from 'react'
+import Layout from '../../components/layout/Layout'
+import ProductCard from '../../components/productCard/ProductCard'
 
 const Allproducts = () => {
   return (
-    <div>Allproducts</div>
+    <Layout>
+      <ProductCard head={"All Products"}/>
+    </Layout>
   )
 }
 

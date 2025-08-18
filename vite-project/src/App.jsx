@@ -18,12 +18,14 @@ import AddProduct from "./pages/admin/pages/AddProduct";
 import UpdateProduct from "./pages/admin/pages/UpdateProduct";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Allproducts from "./pages/allproducts/Allproducts";
 const App = () => {
   return (
     <MyState>
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/allproducts" element={<Allproducts/>}/>
           <Route path="/cart" element={<Cart />} />
           <Route
             path="/order"
