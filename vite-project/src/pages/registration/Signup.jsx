@@ -4,104 +4,123 @@ import myContext from "../../context/data/myContext";
 import { toast } from "react-toastify";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, fireDB } from "../../firebase/FirebaseConfig";
-import { addDoc, collection, Timestamp } from "firebase/firestore";
+import { addDoc, collection } from "firebase/firestore";
 import Loader from "../../components/loader/Loader";
+import { motion } from "framer-motion";
 
 function Signup() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [form, setForm] = useState({ name: "", email: "", password: "" });
 
-  const context = useContext(myContext);
-  const { loading, setLoading } = context;
+  const { loading, setLoading } = useContext(myContext);
 
-  const tosignup = async () => {
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const toSignup = async () => {
     setLoading(true);
-    if (name === "" || email === "" || password === "") {
-      return toast.error("All fields are required");
+
+    const { name, email, password } = form;
+    if (!name || !email || !password) {
+      toast.error("All fields are required");
+      setLoading(false);
+      return;
     }
+
     try {
       const users = await createUserWithEmailAndPassword(auth, email, password);
 
       const user = {
-        name: name,
+        name,
         uid: users.user.uid,
         email: users.user.email,
-        date: new Date().toLocaleString("en-US", {
+        date: new Date().toLocaleDateString("en-US", {
           month: "short",
           day: "2-digit",
           year: "numeric",
         }),
       };
 
-      const userRef = collection(fireDB, "users");
-      await addDoc(userRef, user);
-      toast.success("Signup successful");
-      setName("")
-      setEmail("")
-      setPassword("")
-      setLoading(false);
-      
+      await addDoc(collection(fireDB, "users"), user);
+
+      toast.success("Signup successful ✅");
+      setForm({ name: "", email: "", password: "" });
     } catch (error) {
-      toast.error("Something went wrong");
+      toast.error(error.message || "Something went wrong");
+    } finally {
       setLoading(false);
     }
   };
+
   return (
-    <div className=" flex justify-center items-center h-screen">
-        {loading && <Loader/>}
-      <div className=" bg-gray-800 px-10 py-10 rounded-xl ">
-        <div className="">
-          <h1 className="text-center text-white text-xl mb-4 font-bold">
-            Signup
-          </h1>
-        </div>
-        <div>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            name="name"
-            className=" bg-gray-600 mb-4 px-2 py-2 w-full lg:w-[20em] rounded-lg text-white placeholder:text-gray-200 outline-none"
-            placeholder="Name"
-          />
-        </div>
-        <div>
-          <input
-            type="email"
-            name="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className=" bg-gray-600 mb-4 px-2 py-2 w-full lg:w-[20em] rounded-lg text-white placeholder:text-gray-200 outline-none"
-            placeholder="Email"
-          />
-        </div>
-        <div>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className=" bg-gray-600 mb-4 px-2 py-2 w-full lg:w-[20em] rounded-lg text-white placeholder:text-gray-200 outline-none"
-            placeholder="Password"
-          />
-        </div>
-        <div className=" flex justify-center mb-3">
+    <div className="flex justify-center items-center h-screen bg-gray-900">
+      {loading && <Loader />}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9, y: 50 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="bg-gray-800 px-10 py-10 rounded-2xl shadow-2xl w-[90%] max-w-md"
+      >
+        {/* Title */}
+        <motion.h1
+          initial={{ opacity: 0, y: -30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="text-center text-white text-2xl mb-6 font-bold"
+        >
+          Create Account 🚀
+        </motion.h1>
+
+        {/* Input Fields */}
+        {["name", "email", "password"].map((field, idx) => (
+          <motion.div
+            key={field}
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.3 + idx * 0.2 }}
+            className="mb-4"
+          >
+            <input
+              type={field === "password" ? "password" : field}
+              name={field}
+              value={form[field]}
+              onChange={handleChange}
+              placeholder={
+                field.charAt(0).toUpperCase() + field.slice(1)
+              }
+              className="bg-gray-700 px-3 py-2 w-full rounded-lg text-white placeholder:text-gray-300 outline-none focus:ring-2 focus:ring-red-500"
+            />
+          </motion.div>
+        ))}
+
+        {/* Signup Button */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.9 }}
+          className="flex justify-center mb-4"
+        >
           <button
-            onClick={tosignup}
-            className=" bg-red-500 w-full text-white font-bold  px-2 py-2 cursor-pointer rounded-lg"
+            onClick={toSignup}
+            className="bg-red-500 w-full text-white font-bold px-3 py-2 rounded-lg hover:bg-red-600 transition-all"
           >
             Signup
           </button>
-        </div>
-        <div>
-          <h2 className="text-white">
-            Have an account{" "}
-            <Link className=" text-red-500 font-bold" to={"/login"}>
-              Login
-            </Link>
-          </h2>
-        </div>
-      </div>
+        </motion.div>
+
+        {/* Footer */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.1 }}
+          className="text-white text-center"
+        >
+          Already have an account?{" "}
+          <Link className="text-red-400 font-bold hover:underline" to="/login">
+            Login
+          </Link>
+        </motion.p>
+      </motion.div>
     </div>
   );
 }

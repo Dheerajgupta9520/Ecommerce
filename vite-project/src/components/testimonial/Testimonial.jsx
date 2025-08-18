@@ -1,48 +1,107 @@
-import React, { useContext } from 'react'
-import myContext from '../../context/data/myContext'
+import React, { useContext } from "react";
+import myContext from "../../context/data/myContext";
+import { motion } from "framer-motion";
 
 function Testimonial() {
-    const context = useContext(myContext)
-    const { mode } = context
-    return (
-        <div>
-            <section className="text-gray-600 body-font mb-10">
-                <div className="container px-5 py-10 mx-auto">
-                    <h1 className=' text-center text-3xl font-bold text-black' style={{color: mode === 'dark' ? 'white' : ''}}>Testimonial</h1>
-                    <h2 className=' text-center text-2xl font-semibold mb-10' style={{color: mode === 'dark' ? 'white' : ''}}>What our <span className=' text-pink-500'>customers</span> are saying</h2>
-                    <div className="flex flex-wrap -m-4">
-                        <div className="lg:w-1/3 lg:mb-0 mb-6 p-4">
-                            <div className="h-full text-center">
-                                <img alt="testimonial" className="w-20 h-20 mb-8 object-cover object-center rounded-full inline-block border-2 border-gray-200 bg-gray-100" src="https://ecommerce-sk.vercel.app/img/kamal.png" />
-                                <p style={{color: mode === 'dark' ? 'white' : ''}} className="leading-relaxed">Edison bulb retro cloud bread echo park, helvetica stumptown taiyaki taxidermy 90's cronut +1 kinfolk. Single-origin coffee ennui shaman taiyaki vape DIY tote bag drinking vinegar cronut adaptogen squid fanny pack vaporware.</p>
-                                <span className="inline-block h-1 w-10 rounded bg-pink-500 mt-6 mb-4" />
-                                <h2 style={{color: mode === 'dark' ? '#ff4162' : ''}} className="text-gray-900 font-medium title-font tracking-wider text-sm uppercase">Kamal Nayan Upadhyay</h2>
-                                <p style={{color: mode === 'dark' ? 'white' : ''}} className="text-gray-500">Senior Product Designer</p>
-                            </div>
-                        </div>
-                        <div className="lg:w-1/3 lg:mb-0 mb-6 p-4">
-                            <div className="h-full text-center">
-                                <img alt="testimonial" className="w-20 h-20 mb-8 object-cover object-center rounded-full inline-block border-2 border-gray-200 bg-gray-100" src="https://cdn-icons-png.flaticon.com/128/2763/2763444.png" />
-                                <p  style={{color: mode === 'dark' ? 'white' : ''}}className="leading-relaxed">Edison bulb retro cloud bread echo park, helvetica stumptown taiyaki taxidermy 90's cronut +1 kinfolk. Single-origin coffee ennui shaman taiyaki vape DIY tote bag drinking vinegar cronut adaptogen squid fanny pack vaporware.</p>
-                                <span className="inline-block h-1 w-10 rounded bg-pink-500 mt-6 mb-4" />
-                                <h2 style={{color: mode === 'dark' ? '#ff4162' : ''}} className="text-gray-900 font-medium title-font tracking-wider text-sm uppercase">React Js</h2>
-                                <p style={{color: mode === 'dark' ? 'white' : ''}} className="text-gray-500">UI Develeoper</p>
-                            </div>
-                        </div>
-                        <div className="lg:w-1/3 lg:mb-0 p-4">
-                            <div className="h-full text-center">
-                                <img alt="testimonial" className="w-20 h-20 mb-8 object-cover object-center rounded-full inline-block border-2 border-gray-200 bg-gray-100" src="https://webknudocs.vercel.app/logo/react.png" />
-                                <p style={{color: mode === 'dark' ? 'white' : ''}} className="leading-relaxed">Edison bulb retro cloud bread echo park, helvetica stumptown taiyaki taxidermy 90's cronut +1 kinfolk. Single-origin coffee ennui shaman taiyaki vape DIY tote bag drinking vinegar cronut adaptogen squid fanny pack vaporware.</p>
-                                <span className="inline-block h-1 w-10 rounded bg-pink-500 mt-6 mb-4" />
-                                <h2 style={{color: mode === 'dark' ? '#ff4162' : ''}} className="text-gray-900 font-medium title-font tracking-wider text-sm uppercase">React Js</h2>
-                                <p  style={{color: mode === 'dark' ? 'white' : ''}}className="text-gray-500">CTO</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+  const context = useContext(myContext);
+  const { mode } = context;
+
+  const testimonials = [
+    {
+      name: "Dheeraj Gupta",
+      role: "Developer",
+      img: "https://ecommerce-sk.vercel.app/img/kamal.png",
+      text: "This platform is an absolute game-changer! Smooth shopping experience, beautiful UI, and great performance.",
+    },
+    {
+      name: "React Js",
+      role: "UI Developer",
+      img: "https://cdn-icons-png.flaticon.com/128/2763/2763444.png",
+      text: "Building my project with this site was seamless. The attention to detail is impressive.",
+    },
+    {
+      name: "React Js",
+      role: "CTO",
+      img: "https://webknudocs.vercel.app/logo/react.png",
+      text: "As a CTO, I look for efficiency and quality. This platform delivered both perfectly.",
+    },
+  ];
+
+  return (
+    <section
+      className={`py-16 px-6 md:px-12 transition-colors duration-500 ${
+        mode === "dark" ? "bg-gray-900" : "bg-gray-100"
+      }`}
+    >
+      <div className="max-w-6xl mx-auto text-center">
+        {/* Heading */}
+        <motion.h1
+          initial={{ opacity: 0, y: -30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className={`text-4xl font-bold mb-4 ${
+            mode === "dark" ? "text-white" : "text-gray-900"
+          }`}
+        >
+          What Our <span className="text-pink-500">Customers</span> Say
+        </motion.h1>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className={`mb-12 text-lg ${
+            mode === "dark" ? "text-gray-300" : "text-gray-600"
+          }`}
+        >
+          Real feedback from people who trust our services and products.
+        </motion.p>
+
+        {/* Cards */}
+        <div className="grid md:grid-cols-3 gap-8">
+          {testimonials.map((t, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: index * 0.2 }}
+              whileHover={{ y: -10, scale: 1.05 }}
+              className={`p-6 rounded-2xl shadow-lg ${
+                mode === "dark" ? "bg-gray-800" : "bg-white"
+              }`}
+            >
+              <img
+                src={t.img}
+                alt={t.name}
+                className="w-20 h-20 mx-auto rounded-full border-4 border-pink-500 shadow-md mb-6"
+              />
+              <p
+                className={`leading-relaxed mb-6 ${
+                  mode === "dark" ? "text-gray-300" : "text-gray-600"
+                }`}
+              >
+                "{t.text}"
+              </p>
+              <span className="block h-1 w-10 mx-auto rounded bg-pink-500 mb-4" />
+              <h2
+                className={`text-lg font-semibold ${
+                  mode === "dark" ? "text-pink-400" : "text-gray-900"
+                }`}
+              >
+                {t.name}
+              </h2>
+              <p
+                className={`text-sm ${
+                  mode === "dark" ? "text-gray-400" : "text-gray-500"
+                }`}
+              >
+                {t.role}
+              </p>
+            </motion.div>
+          ))}
         </div>
-    )
+      </div>
+    </section>
+  );
 }
 
-export default Testimonial
+export default Testimonial;

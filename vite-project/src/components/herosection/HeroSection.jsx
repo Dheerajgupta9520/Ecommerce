@@ -1,9 +1,10 @@
 import React from 'react'
+import Hero from "../../assets/hero.png"
 
 const HeroSection = () => {
   return (
     <div>
-        <img src="https://static.vecteezy.com/system/resources/previews/004/299/835/original/online-shopping-on-phone-buy-sell-business-digital-web-banner-application-money-advertising-payment-ecommerce-illustration-search-free-vector.jpg" alt="" />
+        <img className='w-full lg:h-100' src={Hero} alt="" />
     </div>
   )
 }

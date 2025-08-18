@@ -1,8 +1,8 @@
 import React, { useContext, useMemo } from "react";
 import myContext from "../../context/data/myContext";
+import { motion } from "framer-motion";
 
 function Filter() {
-  const context = useContext(myContext);
   const {
     mode,
     searchKey,
@@ -12,22 +12,25 @@ function Filter() {
     filterPrice,
     setFilterPrice,
     product,
-  } = context;
+  } = useContext(myContext);
 
-  // ✅ Unique category list
+  // ✅ Unique categories
   const categories = useMemo(() => {
     const unique = new Set(product.map((p) => p.category));
     return ["all", ...Array.from(unique)];
   }, [product]);
 
-  // ✅ Price ranges (you can adjust)
-  const priceRanges = [
-    { label: "All", value: "" },
-    { label: "Under ₹5000", value: "0-5000" },
-    { label: "₹5000 - ₹10000", value: "5000-10000" },
-    { label: "₹10000 - ₹25000", value: "10000-25000" },
-    { label: "Above ₹25000", value: "25000-" },
-  ];
+  // ✅ Price ranges
+  const priceRanges = useMemo(
+    () => [
+      { label: "All", value: "" },
+      { label: "Under ₹5000", value: "0-5000" },
+      { label: "₹5000 - ₹10000", value: "5000-10000" },
+      { label: "₹10000 - ₹25000", value: "10000-25000" },
+      { label: "Above ₹25000", value: "25000-" },
+    ],
+    []
+  );
 
   // ✅ Reset filters
   const handleReset = () => {
@@ -37,89 +40,94 @@ function Filter() {
   };
 
   return (
-    <div className="container mx-auto px-4 mt-5">
-      <div
-        className="p-5 rounded-lg bg-gray-100 drop-shadow-xl border border-gray-200"
+    <motion.div
+      className="container mx-auto px-4 mt-6"
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+    >
+      <motion.div
+        className="p-6 rounded-2xl shadow-xl backdrop-blur-xl border 
+        border-gray-500/30 relative overflow-hidden"
         style={{
-          backgroundColor: mode === "dark" ? "#282c34" : "",
-          color: mode === "dark" ? "white" : "",
+          background:
+            mode === "dark"
+              ? "linear-gradient(135deg, rgba(40,44,52,0.9), rgba(20,20,20,0.8))"
+              : "linear-gradient(135deg, rgba(255,255,255,0.9), rgba(230,230,230,0.8))",
+          color: mode === "dark" ? "white" : "black",
         }}
+        whileHover={{ scale: 1.01 }}
       >
+        {/* Glow effect background */}
+        <div className="absolute inset-0 bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-500 opacity-20 blur-3xl -z-10" />
+
         {/* Search */}
         <div className="relative">
-          <div className="absolute flex items-center ml-2 h-full">
-            <svg
-              className="w-4 h-4 fill-current text-primary-gray-dark"
-              viewBox="0 0 16 16"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path d="M15.8898 15.0493L11.8588 11.0182C11.7869 10.9463 11.6932 10.9088 11.5932 10.9088H11.2713C12.3431 9.74952 12.9994 8.20272 12.9994 6.49968C12.9994 2.90923 10.0901 0 6.49968 0C2.90923 0 0 2.90923 0 6.49968C0 10.0901 2.90923 12.9994 6.49968 12.9994C8.20272 12.9994 9.74952 12.3431 10.9088 11.2744V11.5932C10.9088 11.6932 10.9495 11.7869 11.0182 11.8588L15.0493 15.8898C15.1961 16.0367 15.4336 16.0367 15.5805 15.8898L15.8898 15.5805C16.0367 15.4336 16.0367 15.1961 15.8898 15.0493ZM6.49968 11.9994C3.45921 11.9994 0.999951 9.54016 0.999951 6.49968C0.999951 3.45921 3.45921 0.999951 6.49968 0.999951C9.54016 0.999951 11.9994 3.45921 11.9994 6.49968C11.9994 9.54016 9.54016 11.9994 6.49968 11.9994Z" />
-            </svg>
-          </div>
           <input
             type="text"
             value={searchKey}
             onChange={(e) => setSearchKey(e.target.value)}
-            placeholder="Search here"
-            className="px-8 py-3 w-full rounded-md border-transparent outline-0 text-sm"
-            style={{
-              backgroundColor: mode === "dark" ? "rgb(64 66 70)" : "",
-              color: mode === "dark" ? "white" : "",
-            }}
+            placeholder="🔍 Search products..."
+            className="px-10 py-3 w-full rounded-xl outline-none text-sm 
+            bg-gray-200/20 dark:bg-gray-700/40 
+            text-white placeholder-gray-300 border border-gray-500/20 
+            focus:border-purple-500 focus:ring-2 focus:ring-purple-500/40 transition-all"
           />
+          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+            <i className="fas fa-search"></i>
+          </span>
         </div>
 
-        {/* Filters */}
-        <div className="flex items-center justify-between mt-4">
-          <p className="font-medium">Filters</p>
-          <button
+        {/* Filters Header */}
+        <div className="flex items-center justify-between mt-6">
+          <p className="font-semibold tracking-wide text-lg">⚡ Filters</p>
+          <motion.button
             onClick={handleReset}
-            className="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm font-medium rounded-md"
-            style={{ color: mode === "dark" ? "white" : "" }}
+            className="px-4 py-2 rounded-lg bg-gradient-to-r from-pink-500 to-purple-600 
+            text-white text-sm font-semibold shadow-md hover:shadow-lg transition-all"
+            whileTap={{ scale: 0.9 }}
           >
-            Reset Filter
-          </button>
+            Reset
+          </motion.button>
         </div>
 
         {/* Dropdowns */}
-        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 mt-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 mt-6">
           {/* Category */}
-          <select
+          <motion.select
             value={filterType}
             onChange={(e) => setFilterType(e.target.value)}
-            className="px-4 py-3 w-full rounded-md bg-gray-50 border-transparent outline-0 text-sm"
-            style={{
-              backgroundColor: mode === "dark" ? "rgb(64 66 70)" : "",
-              color: mode === "dark" ? "white" : "",
-            }}
+            className="px-4 py-3 rounded-xl bg-gray-200/20 dark:bg-gray-700/40 
+            text-white border border-gray-500/20 text-sm outline-none
+            focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/40 transition-all"
+            whileTap={{ scale: 0.97 }}
           >
             {categories.map((cat, index) => (
-              <option key={index} value={cat}>
+              <option key={index} value={cat} className="text-black">
                 {cat.charAt(0).toUpperCase() + cat.slice(1)}
               </option>
             ))}
-          </select>
+          </motion.select>
 
           {/* Price */}
-          <select
+          <motion.select
             value={filterPrice}
             onChange={(e) => setFilterPrice(e.target.value)}
-            className="px-4 py-3 w-full rounded-md bg-gray-50 border-transparent outline-0 text-sm"
-            style={{
-              backgroundColor: mode === "dark" ? "rgb(64 66 70)" : "",
-              color: mode === "dark" ? "white" : "",
-            }}
+            className="px-4 py-3 rounded-xl bg-gray-200/20 dark:bg-gray-700/40 
+            text-white border border-gray-500/20 text-sm outline-none
+            focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/40 transition-all"
+            whileTap={{ scale: 0.97 }}
           >
             {priceRanges.map((range, index) => (
-              <option key={index} value={range.value}>
+              <option key={index} value={range.value} className="text-black">
                 {range.label}
               </option>
             ))}
-          </select>
+          </motion.select>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
 
-export default Filter;
+export default React.memo(Filter);

@@ -1,75 +1,90 @@
-import React, { useContext } from 'react'
-import myContext from '../../../context/data/myContext';
+import React, { useContext } from "react";
+import myContext from "../../../context/data/myContext";
+import { motion } from "framer-motion";
 
 function AddProduct() {
+  const context = useContext(myContext);
+  const { products, setProducts, addProduct } = context;
 
-    const context = useContext(myContext);
-    const {products,setProducts,addProduct} = context
+  return (
+    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800">
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ type: "spring", stiffness: 60, damping: 15 }}
+        className="bg-gray-900/70 backdrop-blur-md px-8 py-10 rounded-2xl border border-gray-700 shadow-lg w-[90%] sm:w-[28em]"
+      >
+        <h1 className="text-center text-white text-2xl mb-6 font-bold tracking-wide">
+          Add Product
+        </h1>
 
-    return (
-        <div>
-            <div className=' flex justify-center items-center h-screen'>
-                <div className=' bg-gray-800 px-10 py-10 rounded-xl '>
-                    <div className="">
-                        <h1 className='text-center text-white text-xl mb-4 font-bold'>Add Product</h1>
-                    </div>
-                    <div>
-                        <input type="text"
-                            name='title'
-                            value={products.title}
-                            onChange={(e) => setProducts({ ...products, title: e.target.value })}
-                            className=' bg-gray-600 mb-4 px-2 py-2 w-full lg:w-[20em] rounded-lg text-white placeholder:text-gray-200 outline-none'
-                            placeholder='Product title'
-                        />
-                    </div>
-                    <div>
-                        <input type="text"
-                            name='price'
-                            value={products.price}
-                            onChange={(e) => setProducts({ ...products, price: e.target.value })}
-                            className=' bg-gray-600 mb-4 px-2 py-2 w-full lg:w-[20em] rounded-lg text-white placeholder:text-gray-200 outline-none'
-                            placeholder='Product price'
-                        />
-                    </div>
-                    <div>
-                        <input type="text"
-                            name='imageurl'
-                            value={products.imageURL}
-                            onChange={(e) => setProducts({ ...products, imageURL: e.target.value })}
-                            className=' bg-gray-600 mb-4 px-2 py-2 w-full lg:w-[20em] rounded-lg text-white placeholder:text-gray-200 outline-none'
-                            placeholder='Product imageUrl'
-                        />
-                    </div>
-                    <div>
-                        <input type="text"
-                            name='category'
-                            value={products.category}
-                            onChange={(e) => setProducts({ ...products, category: e.target.value })}
-                            className=' bg-gray-600 mb-4 px-2 py-2 w-full lg:w-[20em] rounded-lg text-white placeholder:text-gray-200 outline-none'
-                            placeholder='Product category'
-                        />
-                    </div>
-                    <div>
-                       <textarea cols="30" rows="10" name='Description'
-                            value={products.description}
-                            onChange={(e) => setProducts({ ...products, description: e.target.value })}
-                            className=' bg-gray-600 mb-4 px-2 h-30 py-2 w-full lg:w-[20em] rounded-lg text-white placeholder:text-gray-200 outline-none'
-                            placeholder='Product Description'>
+        {/* Title */}
+        <input
+          type="text"
+          name="title"
+          value={products.title}
+          onChange={(e) => setProducts({ ...products, title: e.target.value })}
+          className="mb-4 px-3 py-2 w-full rounded-lg bg-gray-800 text-white border border-gray-700 focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400 outline-none placeholder-gray-400 transition"
+          placeholder="Product title"
+        />
 
-                       </textarea>
-                    </div>
-                    <div className=' flex justify-center mb-3'>
-                        <button
-                            onClick={addProduct}
-                            className=' bg-yellow-500 w-full text-black font-bold  px-2 py-2 rounded-lg'>
-                            Add Product
-                        </button>
-                    </div>
-                 
-                </div>
-            </div>
+        {/* Price */}
+        <input
+          type="text"
+          name="price"
+          value={products.price}
+          onChange={(e) => setProducts({ ...products, price: e.target.value })}
+          className="mb-4 px-3 py-2 w-full rounded-lg bg-gray-800 text-white border border-gray-700 focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400 outline-none placeholder-gray-400 transition"
+          placeholder="Product price"
+        />
+
+        {/* Image URL */}
+        <input
+          type="text"
+          name="imageurl"
+          value={products.imageURL}
+          onChange={(e) => setProducts({ ...products, imageURL: e.target.value })}
+          className="mb-4 px-3 py-2 w-full rounded-lg bg-gray-800 text-white border border-gray-700 focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400 outline-none placeholder-gray-400 transition"
+          placeholder="Product imageUrl"
+        />
+
+        {/* Category */}
+        <input
+          type="text"
+          name="category"
+          value={products.category}
+          onChange={(e) => setProducts({ ...products, category: e.target.value })}
+          className="mb-4 px-3 py-2 w-full rounded-lg bg-gray-800 text-white border border-gray-700 focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400 outline-none placeholder-gray-400 transition"
+          placeholder="Product category"
+        />
+
+        {/* Description */}
+        <textarea
+          cols="30"
+          rows="5"
+          name="description"
+          value={products.description}
+          onChange={(e) =>
+            setProducts({ ...products, description: e.target.value })
+          }
+          className="mb-4 px-3 py-2 w-full rounded-lg bg-gray-800 text-white border border-gray-700 focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400 outline-none placeholder-gray-400 transition resize-none"
+          placeholder="Product description"
+        />
+
+        {/* Button */}
+        <div className="flex justify-center">
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.97 }}
+            onClick={addProduct}
+            className="w-full bg-yellow-500 text-black font-semibold px-4 py-2 rounded-lg shadow-md hover:bg-yellow-400 transition"
+          >
+            Add Product
+          </motion.button>
         </div>
-    )
+      </motion.div>
+    </div>
+  );
 }
 
-export default AddProduct
+export default AddProduct;
