@@ -32,7 +32,7 @@ function Cart() {
   // add to cart
   const deleteCart = (item) => {
     dispatch(deletefromCart(item));
-    toast.success("delete g cart");
+    toast.success(`Delete ${item.title} from cart`);
   };
 
   useEffect(() => {
