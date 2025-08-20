@@ -153,7 +153,7 @@ function Cart() {
                   className="text-center py-16"
                 >
                   <img
-                    src="https://illustrations.popsy.co/gray/cart.svg"
+                    src="https://media.istockphoto.com/id/861576608/vector/empty-shopping-bag-icon-online-business-vector-icon-template.jpg?s=612x612&w=0&k=20&c=I7MbHHcjhRH4Dy0NVpf4ZN4gn8FVDnwn99YdRW2x5k0="
                     alt="Empty cart"
                     className="w-40 mx-auto mb-6"
                   />

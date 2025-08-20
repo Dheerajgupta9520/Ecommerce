@@ -133,7 +133,7 @@ function DashboardTab() {
                     "S.No", "Payment Id", "Image", "Title", "Price", "Category",
                     "Name", "Address", "Pincode", "Phone", "Email", "Date"
                   ].map((h) => (
-                    <th key={h} className="px-6 py-3">{h}</th>
+                    <th key={h} className="px-3 py-3">{h}</th>
                   ))}
                 </tr>
               </thead>
@@ -149,18 +149,18 @@ function DashboardTab() {
                       className="bg-gray-50 border-b"
                       style={darkStyle}
                     >
-                      <td className="px-6 py-4">{oi * o.cartItems.length + ii + 1}.</td>
-                      <td className="px-6 py-4">{o.paymentId}</td>
+                      <td className="px-3 py-4">{oi * o.cartItems.length + ii + 1}.</td>
+                      <td className="px-1 py-4">{o.paymentId}</td>
                       <td className="px-6 py-4"><img className="w-16" src={item.imageURL} alt="img" /></td>
                       <td className="px-6 py-4">{item.title}</td>
-                      <td className="px-6 py-4">₹{item.price}</td>
-                      <td className="px-6 py-4">{item.category}</td>
-                      <td className="px-6 py-4">{o.addressInfo.name}</td>
-                      <td className="px-6 py-4">{o.addressInfo.address}</td>
-                      <td className="px-6 py-4">{o.addressInfo.pincode}</td>
-                      <td className="px-6 py-4">{o.addressInfo.phoneNumber}</td>
-                      <td className="px-6 py-4">{o.email}</td>
-                      <td className="px-6 py-4">{o.date}</td>
+                      <td className="px-3 py-4">₹{item.price}</td>
+                      <td className="px-3 py-4">{item.category}</td>
+                      <td className="px-3 py-4">{o.addressInfo.name}</td>
+                      <td className="px-2 py-4">{o.addressInfo.address}</td>
+                      <td className="px-2 py-4">{o.addressInfo.pincode}</td>
+                      <td className="px-2 py-4">{o.addressInfo.phoneNumber}</td>
+                      <td className="px-2 py-4">{o.email}</td>
+                      <td className="px-2 py-4">{o.date}</td>
                     </motion.tr>
                   ))
                 )}
